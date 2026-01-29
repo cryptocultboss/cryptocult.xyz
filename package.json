@@ -1,0 +1,15 @@
+{
+    "name": "md-to-html-generator",
+    "version": "1.0.0",
+    "description": "Generate HTML files from Markdown files",
+    "main": "generate.js",
+    "type": "module",
+    "scripts": {
+        "build": "node generate.js"
+    },
+    "dependencies": {
+        "gray-matter": "^4.0.3",
+        "marked": "^9.0.0",
+        "fs-extra": "^11.1.1"
+    }
+}
