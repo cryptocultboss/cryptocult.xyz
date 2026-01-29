@@ -21,6 +21,20 @@ gtag('config', '${GA_ID}');
 </script>
 `;
 
+
+const LAYOUT_PATH = path.join(process.cwd(), "layout.html");
+
+async function renderWithLayout({ title, content, cssPath }) {
+  const layout = await fs.readFile(LAYOUT_PATH, "utf-8");
+
+  return layout
+    .replace("{{title}}", title)
+    .replace("{{content}}", content)
+    .replace("{{css}}", cssPath)
+    .replace("{{ga}}", GA_SNIPPET);
+}
+
+
 async function getMarkdownFiles(dir) {
   const results = [];
   for (const entry of await fs.readdir(dir)) {
@@ -107,40 +121,43 @@ function fixMarkdownImagePaths(markdownContent) {
 }
 
 
-function generateIndexPageHtml(articles, currentPage, totalPages) {
+async function generateIndexPageHtml(articles, currentPage, totalPages, outputPath) {
   const articleList = articles
-    .map(a => `<li><a href="${a.url}">${a.title}</a> <small>${new Date(a.date).toLocaleDateString()}</small></li>`)
-    .join("\n");
+    .map(
+      a =>
+        `<li><a href="${a.url}">${a.title}</a>
+         <small>${new Date(a.date).toLocaleDateString()}</small></li>`
+    )
+    .join("");
 
   let pagination = "";
   if (totalPages > 1) {
     pagination = "<nav><ul class='pagination'>";
     for (let i = 1; i <= totalPages; i++) {
-      pagination += `<li${i === currentPage ? " class='current'" : ""}><a href="${i === 1 ? "index.html" : `page${i}.html`}">${i}</a></li>`;
+      pagination += `<li${i === currentPage ? " class='current'" : ""}>
+        <a href="${i === 1 ? "index.html" : `page${i}.html`}">${i}</a>
+      </li>`;
     }
     pagination += "</ul></nav>";
   }
 
-  return `<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>All Articles - Page ${currentPage}</title>
-<link rel="stylesheet" href="${CSS_FILE_NAME}">
-${GA_SNIPPET}
-</head>
-<body>
+  const content = `
 <main>
-<h1>All Articles</h1>
-<ul>
-${articleList}
-</ul>
-${pagination}
+  <h1>All Articles</h1>
+  <ul>${articleList}</ul>
+  ${pagination}
 </main>
-</body>
-</html>`;
+`;
+
+  const cssPath = getRelativeAssetPath(outputPath, CSS_FILE_NAME);
+
+  return renderWithLayout({
+    title: `All Articles – Page ${currentPage}`,
+    content,
+    cssPath
+  });
 }
+
 
 async function generate() {
   try {
@@ -176,10 +193,16 @@ async function generate() {
       const start = (page - 1) * ARTICLES_PER_PAGE;
       const end = start + ARTICLES_PER_PAGE;
       const articlesOnPage = allArticles.slice(start, end);
-      const pageHtml = generateIndexPageHtml(articlesOnPage, page, totalPages);
-      const pagePath = page === 1
-        ? path.join(OUTPUT_DIR, "index.html")
-        : path.join(OUTPUT_DIR, `page${page}.html`);
+      const pagePath =
+        page === 1
+          ? path.join(OUTPUT_DIR, "index.html")
+          : path.join(OUTPUT_DIR, `page${page}.html`);
+      const pageHtml = await generateIndexPageHtml(
+        articlesOnPage,
+        page,
+        totalPages,
+        pagePath
+      );
       await fs.writeFile(pagePath, pageHtml, "utf-8");
     }
 
