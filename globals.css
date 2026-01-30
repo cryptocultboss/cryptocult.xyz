@@ -24,8 +24,8 @@
   --accent-soft: rgba(44, 255, 106, 0.15);
 
   /* Typography */
-  --font-heading: sans-serif;
-  --font-body: sans-serif;
+  --font-heading: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --base-font: 1rem;
 
   /* UI tokens */
@@ -72,9 +72,11 @@ blockquote {
    ========================================================= */
 
 h1 {
-  font-size: calc(var(--base-font) * 2.2);
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  font-size: calc(var(--base-font) * 3.2);
   line-height: 1.2;
-  margin-bottom: 2.5rem;
+  margin-bottom: 4rem;
 }
 
 h2 {
@@ -147,6 +149,29 @@ code {
   white-space: pre-wrap;
   word-break: break-word;
 }
+
+.site-nav {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  background-color: var(--color-dark-black);
+
+}
+
+.nav-logo {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.nav-logo img {
+  height: 32px;
+  width: auto;
+  display: block;
+}
+
 
 /* =========================================================
    6. ARTICLE LAYOUT
