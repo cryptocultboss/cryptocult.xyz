@@ -74,7 +74,7 @@ blockquote {
 h1 {
   font-size: calc(var(--base-font) * 2.2);
   line-height: 1.2;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2.5rem;
 }
 
 h2 {
@@ -357,6 +357,7 @@ img {
   h1 {
     font-size: 1.7rem;
     line-height: 1.25;
+    margin-bottom: 1.5rem;
   }
 
   h2 {
