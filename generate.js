@@ -10,6 +10,7 @@ const CSS_FILE_NAME = "globals.css";
 const CSS_SOURCE_PATH = path.join(process.cwd(), "public", CSS_FILE_NAME);
 const IMAGES_SOURCE_PATH = path.join(process.cwd(), "public", "images");
 const NOT_FOUND_SOURCE = path.join(process.cwd(), "public", "404.html");
+const CNAME_SOURCE = path.join(process.cwd(), "public", "CNAME");
 const ARTICLES_PER_PAGE = 10;
 
 const GA_SNIPPET = `
@@ -166,6 +167,7 @@ async function generate() {
     await fs.copy(CSS_SOURCE_PATH, path.join(OUTPUT_DIR, CSS_FILE_NAME));
     await fs.copy(IMAGES_SOURCE_PATH, path.join(OUTPUT_DIR, "images"));
     await fs.copy(NOT_FOUND_SOURCE, path.join(OUTPUT_DIR, "404.html"));
+    await fs.copy(CNAME_SOURCE, path.join(OUTPUT_DIR, "CNAME"));
 
     const mdFiles = await getMarkdownFiles(CONTENT_DIR);
     const allArticles = [];
