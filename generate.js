@@ -5,6 +5,7 @@ import { marked } from "marked";
 
 const GA_ID = "G-JC4DLG7BF2";
 const SITE_URL = "https://cryptocult.xyz";
+const CSS_VERSION = Date.now();
 const PUBLIC_DIR = path.join(process.cwd(), "public");
 const CONTENT_DIR = path.join(process.cwd(), "content");
 const OUTPUT_DIR = path.join(process.cwd(), "dist");
@@ -106,10 +107,16 @@ async function convertMarkdownToHTML(filePath, outputPath, frontMatter) {
   const htmlContent = `<section>${marked(fixedContent)}</section>`;
   const title = frontMatter.title || "Untitled";
   const description = frontMatter.description || "";
-  const imagePath = frontMatter.featured_image
+  const imageRelativePath = frontMatter.featured_image
     ? getRelativeAssetPath(outputPath, frontMatter.featured_image)
     : "";
-  const cssRelativePath = getRelativeAssetPath(outputPath, CSS_FILE_NAME);
+
+  const imageAbsoluteUrl = frontMatter.featured_image
+    ? getAbsolutePublicUrl(frontMatter.featured_image)
+    : "";
+  const cssRelativePath =
+    getRelativeAssetPath(outputPath, CSS_FILE_NAME) +
+    `?v=${CSS_VERSION}`;
   const url = frontMatter.url || "";
 
   return `<!DOCTYPE html>
@@ -126,13 +133,11 @@ async function convertMarkdownToHTML(filePath, outputPath, frontMatter) {
 <meta property="og:type" content="article">
 <meta property="og:title" content="${title}">
 <meta property="og:description" content="${description}">
-${imagePath ? `<meta property="og:image" content="${imagePath}">` : ""}
 ${url ? `<meta property="og:url" content="${url}">` : ""}
-
-<meta name="twitter:card" content="${imagePath ? "summary_large_image" : "summary"}">
-<meta name="twitter:title" content="${title}">
-<meta name="twitter:description" content="${description}">
-${imagePath ? `<meta name="twitter:image" content="${imagePath}">` : ""}
+${imageAbsoluteUrl ? `<meta property="og:image" content="${imageAbsoluteUrl}">` : ""}
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/jpeg">
 
 <link rel="stylesheet" href="${cssRelativePath}">
 <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
@@ -142,18 +147,50 @@ ${imagePath ? `<meta name="twitter:image" content="${imagePath}">` : ""}
 ${GA_SNIPPET}
 </head>
 <body>
+<nav class="site-nav">
+  <a href="/" class="nav-logo">
+    <img src="https://cryptocult.xyz/images/cult-round-001.png" alt="Crypto Cult Logo">
+  </a>
+</nav>
 <main>
 <article>
 <header><h1>${title}</h1></header>
 ${htmlContent}
-<footer>
-${frontMatter.author ? `<p>Author: ${frontMatter.author}</p>` : ""}
-${frontMatter.date ? `<p>Date: <time datetime="${frontMatter.date}">${new Date(frontMatter.date).toLocaleDateString()}</time></p>` : ""}
-</footer>
 </article>
 </main>
+<footer class="site-footer">
+${frontMatter.author ? `<p>Author: ${frontMatter.author}</p>` : ""}
+${frontMatter.date ? `<p>Date: <time datetime="${frontMatter.date}">${new Date(frontMatter.date).toLocaleDateString()}</time></p>` : ""}
+        <div class="footer-inner">
+            <p class="footer-label">Official Community Links</p>
+
+            <nav class="footer-links">
+                <a href="/">
+                    Home
+                </a>
+
+                <a href="https://x.com/cryptocultxyz" target="_blank" rel="noopener noreferrer">
+                    X Account
+                </a>
+                <a href="https://x.com/i/communities/2014809093261680721" target="_blank" rel="noopener noreferrer">
+                    X Community
+                </a>
+                <a href="https://t.me/cryptocultxyz" target="_blank" rel="noopener noreferrer">
+                    Telegram
+                </a>
+            </nav>
+
+            <p class="footer-note">
+                Crypto Cult is a community-driven project built around culture, participation, and conversation.
+            </p>
+        </div>
+</footer>
 </body>
 </html>`;
+}
+
+function getAbsolutePublicUrl(assetPath) {
+  return `${SITE_URL}/${assetPath.replace(/^\/+/, "")}`;
 }
 
 function fixMarkdownImagePaths(markdownContent) {
