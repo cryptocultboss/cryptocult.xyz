@@ -1,13 +1,11 @@
 ---
-title: $CULT Community Guidelines
-description: CULT is more than a token. It is a movement, a philosophy, and a living community. At its core, $CULT exists to celebrate humanity, connection, and leadership.
+title: Crypto Cult Community Guidelines
+description: Crypto Cult is more than a token. It is a movement, a philosophy, and a living community. At its core, $CULT exists to celebrate humanity, connection, and leadership.
 featured_image: /images/token/cult-whitepaper/cult-crypto-community-guidelines.png
 ---
 ![what](../../../public/images/token/cult-whitepaper/cult-crypto-community-guidelines.png)
 
-## The Heart of $CULT
-
-$CULT is more than a token. It is a movement, a philosophy, and a living community. At its core, $CULT exists to **celebrate humanity, connection, and leadership**.
+Crypto Cult is more than a token. It is a movement, a philosophy, and a living community. At its core, $CULT exists to **celebrate humanity, connection, and leadership**.
 
 These guidelines are here to ensure that every participant feels **welcomed, valued, and empowered** to contribute to the collective human experience we are building.
 

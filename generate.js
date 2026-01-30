@@ -3,8 +3,9 @@ import path from "path";
 import matter from "gray-matter";
 import { marked } from "marked";
 
-const GA_ID = "G-XXXXXXXXXX";
+const GA_ID = "G-JC4DLG7BF2";
 const SITE_URL = "https://cryptocult.xyz";
+const PUBLIC_DIR = path.join(process.cwd(), "public");
 const CONTENT_DIR = path.join(process.cwd(), "content");
 const OUTPUT_DIR = path.join(process.cwd(), "dist");
 const CSS_FILE_NAME = "globals.css";
@@ -28,6 +29,22 @@ gtag('config', '${GA_ID}');
 
 
 const LAYOUT_PATH = path.join(process.cwd(), "layout.html");
+
+
+async function copyPublicRootFiles() {
+  const entries = await fs.readdir(PUBLIC_DIR);
+
+  for (const entry of entries) {
+    const src = path.join(PUBLIC_DIR, entry);
+    const dest = path.join(OUTPUT_DIR, entry);
+    const stats = await fs.stat(src);
+
+    if (stats.isFile()) {
+      await fs.copy(src, dest);
+    }
+  }
+}
+
 
 async function renderWithLayout({ title, content, cssPath }) {
   const layout = await fs.readFile(LAYOUT_PATH, "utf-8");
@@ -63,10 +80,15 @@ async function convertMarkdownToHTML(filePath, outputPath, frontMatter) {
     .relative(OUTPUT_DIR, outputPath)
     .replace(/\\/g, "/");
 
-  const canonicalPath = "/" +
-    relativeHtmlPath
-      .replace(/index\.html$/, "") // root or folders
-      .replace(/\.html$/, "/");    // articles
+  let canonicalPath;
+
+  if (relativeHtmlPath === "index.html") {
+    canonicalPath = "/";
+  } else if (relativeHtmlPath.endsWith("/index.html")) {
+    canonicalPath = "/" + relativeHtmlPath.replace(/\/index\.html$/, "/");
+  } else {
+    canonicalPath = "/" + relativeHtmlPath.replace(/\.html$/, "");
+  }
 
   const canonicalUrl = frontMatter.canonical
     ? frontMatter.canonical
@@ -95,7 +117,9 @@ async function convertMarkdownToHTML(filePath, outputPath, frontMatter) {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="index, follow">
 <title>${title}</title>
+<!-- canonical -->
 <link rel="canonical" href="${canonicalUrl}">
 <meta name="description" content="${description}">
 
@@ -111,6 +135,10 @@ ${url ? `<meta property="og:url" content="${url}">` : ""}
 ${imagePath ? `<meta name="twitter:image" content="${imagePath}">` : ""}
 
 <link rel="stylesheet" href="${cssRelativePath}">
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
 ${GA_SNIPPET}
 </head>
 <body>
@@ -183,10 +211,11 @@ async function generate() {
     await fs.emptyDir(OUTPUT_DIR);
     await fs.copy(CSS_SOURCE_PATH, path.join(OUTPUT_DIR, CSS_FILE_NAME));
     await fs.copy(IMAGES_SOURCE_PATH, path.join(OUTPUT_DIR, "images"));
-    await fs.copy(NOT_FOUND_SOURCE, path.join(OUTPUT_DIR, "404.html"));
-    await fs.copy(SITEMAP_PATH, path.join(OUTPUT_DIR, "sitemap.xml"));
-    await fs.copy(ROBOTS_PATH, path.join(OUTPUT_DIR, "robots.txt"));
-    await fs.copy(CNAME_SOURCE, path.join(OUTPUT_DIR, "CNAME"));
+    await copyPublicRootFiles();
+    // await fs.copy(NOT_FOUND_SOURCE, path.join(OUTPUT_DIR, "404.html"));
+    // await fs.copy(SITEMAP_PATH, path.join(OUTPUT_DIR, "sitemap.xml"));
+    // await fs.copy(ROBOTS_PATH, path.join(OUTPUT_DIR, "robots.txt"));
+    // await fs.copy(CNAME_SOURCE, path.join(OUTPUT_DIR, "CNAME"));
 
 
     const mdFiles = await getMarkdownFiles(CONTENT_DIR);
