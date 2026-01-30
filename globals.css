@@ -1,4 +1,9 @@
+/* =========================================================
+   1. DESIGN TOKENS / VARIABLES
+   ========================================================= */
+
 :root {
+  /* Colors */
   --color-dark-gold: #31972e;
   --color-gold-light: #45CC41;
   --color-gold-dark: #459743;
@@ -10,40 +15,28 @@
   --color-white: #FFFFFF;
   --color-overlay: rgba(26, 26, 26, 0.85);
 
-  --font-heading: sans-serif;
-  --font-body: sans-serif;
-
-  --border-radius: 8px;
-  --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  --transition: all 0.3s ease;
-
+  /* UI palette */
   --bg-dark: #0b0f14;
   --bg-panel: #11161d;
   --text-main: #e6e8eb;
   --text-muted: #9aa4af;
   --accent: #45CC41;
   --accent-soft: rgba(44, 255, 106, 0.15);
-}
 
-:root {
+  /* Typography */
+  --font-heading: sans-serif;
+  --font-body: sans-serif;
   --base-font: 1rem;
+
+  /* UI tokens */
+  --border-radius: 8px;
+  --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  --transition: all 0.3s ease;
 }
 
-h1 {
-  font-size: calc(var(--base-font) * 2.2);
-}
-
-h2 {
-  font-size: calc(var(--base-font) * 1.6);
-}
-
-h3 {
-  font-size: calc(var(--base-font) * 1.25);
-}
-
-code {
-  font-size: calc(var(--base-font) * 0.95);
-}
+/* =========================================================
+   2. RESET & GLOBAL SAFETY RULES
+   ========================================================= */
 
 * {
   margin: 0;
@@ -52,9 +45,8 @@ code {
 }
 
 body {
-  margin: 0;
-  padding: 0;
   min-height: 100vh;
+  overflow-x: hidden;
   font-family: var(--font-body);
   font-size: var(--base-font);
   line-height: 1.6;
@@ -62,67 +54,61 @@ body {
   background-color: var(--color-light-black);
 }
 
-article {
-  max-width: 75ch;
-  margin: 4rem auto;
-  padding: 0 1rem;
+/* Text wrapping safety (crypto-safe) */
+p,
+h1,
+h2,
+h3,
+li,
+a,
+span,
+blockquote {
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
-article img {
-  display: block;
-  width: 100vw;
-  max-width: 100vw;
-  height: auto;
-  object-fit: cover;
+/* =========================================================
+   3. TYPOGRAPHY
+   ========================================================= */
 
-  position: relative;
-  left: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
+h1 {
+  font-size: calc(var(--base-font) * 2.2);
+  line-height: 1.2;
+  margin-bottom: 1.5rem;
+}
 
+h2 {
+  font-size: calc(var(--base-font) * 1.6);
+  margin-top: 3rem;
+  margin-bottom: 1rem;
+}
+
+h3 {
+  font-size: calc(var(--base-font) * 1.25);
   margin-top: 2rem;
-  margin-bottom: 2rem;
-
-  border-radius: 4px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-article img:hover {
-  transform: scale(1.02);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
-}
-
-article p {
-  line-height: 2;
+  margin-bottom: 0.75rem;
 }
 
 h1,
 h2,
 h3 {
   font-weight: 600;
-  margin: 1.5rem 0 0.5rem;
   font-family: var(--font-heading);
-}
-
-h1 {
-  line-height: 1.2;
-  margin-bottom: 1.5rem;
-}
-
-h2 {
-  margin-top: 3rem;
-  margin-bottom: 1rem;
-}
-
-h3 {
-  margin-top: 2rem;
-  margin-bottom: 0.75rem;
 }
 
 p {
   margin: 1rem 0;
+  line-height: 2;
 }
+
+a {
+  color: var(--color-dark-gold);
+  text-decoration: underline;
+}
+
+/* =========================================================
+   4. LISTS & BLOCK CONTENT
+   ========================================================= */
 
 ul,
 ol {
@@ -134,16 +120,16 @@ li {
   margin: 0.4rem 0;
 }
 
-a {
-  color: var(--color-dark-gold);
-  text-decoration: underline;
+blockquote {
+  margin: 2rem 0;
+  padding-left: 1rem;
+  border-left: 3px solid #ccc;
+  color: #555;
 }
 
-img {
-  max-width: 100%;
-  height: auto;
-  margin: 1rem 0;
-}
+/* =========================================================
+   5. CODE BLOCKS
+   ========================================================= */
 
 pre {
   background: #f6f6f6;
@@ -154,26 +140,53 @@ pre {
 
 code {
   font-family: monospace;
+  font-size: calc(var(--base-font) * 0.95);
+  white-space: pre-wrap;
+  word-break: break-word;
 }
 
-blockquote {
-  margin: 2rem 0;
-  padding-left: 1rem;
-  border-left: 3px solid #ccc;
-  color: #555;
+/* =========================================================
+   6. ARTICLE LAYOUT
+   ========================================================= */
+
+article {
+  max-width: 75ch;
+  margin: 4rem auto;
+  padding: 0 1rem;
 }
 
-.header-404 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* Full-bleed article images */
+article img {
+  display: block;
+  width: 100vw;
+  max-width: 100vw;
+  height: auto;
+  object-fit: cover;
+
+  position: relative;
+  left: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  border-radius: 4px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.section-404 {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+article img:hover {
+  transform: scale(1.02);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
 }
+
+/* Fallback for inline images */
+img {
+  max-width: 100%;
+  height: auto;
+  margin: 1rem 0;
+}
+
+/* =========================================================
+   7. HEADER / HERO SECTION
+   ========================================================= */
 
 .main-header {
   position: relative;
@@ -193,20 +206,14 @@ blockquote {
 
 .background-container {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   z-index: -2;
 }
 
 .gif-background {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-image: url('./images/cult-token.gif');
+  inset: 0;
+  background-image: url("./images/cult-token.gif");
   background-size: cover;
   background-position: center;
   animation: backgroundAnimation 3s infinite alternate;
@@ -217,7 +224,6 @@ blockquote {
     transform: scale(1);
     filter: brightness(0.1) contrast(1);
   }
-
   100% {
     transform: scale(1.05);
     filter: brightness(0.3) contrast(1.1);
@@ -226,10 +232,7 @@ blockquote {
 
 .overlay {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+  inset: 0;
   background: var(--color-overlay);
   z-index: -1;
 }
@@ -240,8 +243,6 @@ blockquote {
   margin: 0 auto;
   padding: 3rem 2rem;
   display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: auto auto;
   gap: 2.5rem;
   z-index: 10;
 }
@@ -250,22 +251,17 @@ blockquote {
   text-transform: uppercase;
 }
 
-.lead {
-  color: var(--text-muted);
-}
+/* =========================================================
+   8. CONTENT CALLOUTS
+   ========================================================= */
 
-.statements p {
-  color: var(--text-muted);
-}
-
-.statements span {
-  color: var(--accent);
-}
-
+.lead,
+.statements p,
 .closing {
   color: var(--text-muted);
 }
 
+.statements span,
 .closing span {
   color: var(--accent);
   font-weight: 600;
@@ -279,8 +275,26 @@ blockquote {
   border-left: 3px solid var(--accent);
 }
 
+/* =========================================================
+   9. 404 PAGE
+   ========================================================= */
 
-/* Footer */
+.header-404 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.section-404 {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* =========================================================
+   10. FOOTER
+   ========================================================= */
+
 .site-footer {
   background-color: var(--color-dark-black);
   padding: 3rem 1.5rem;
@@ -331,8 +345,30 @@ blockquote {
   color: var(--text-muted);
 }
 
-/* Mobile */
+/* =========================================================
+   11. RESPONSIVE OVERRIDES
+   ========================================================= */
+
+@media (max-width: 600px) {
+  article img {
+    width: 100%;
+    max-width: 100%;
+    left: 0;
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
 @media (max-width: 500px) {
+  h1 {
+    font-size: 1.7rem;
+    line-height: 1.25;
+  }
+
+  h2 {
+    font-size: 1.35rem;
+  }
+
   .footer-links {
     flex-direction: column;
     gap: 0.8rem;
