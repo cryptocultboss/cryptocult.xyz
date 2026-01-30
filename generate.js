@@ -4,12 +4,15 @@ import matter from "gray-matter";
 import { marked } from "marked";
 
 const GA_ID = "G-XXXXXXXXXX";
+const SITE_URL = "https://cryptocult.xyz";
 const CONTENT_DIR = path.join(process.cwd(), "content");
 const OUTPUT_DIR = path.join(process.cwd(), "dist");
 const CSS_FILE_NAME = "globals.css";
 const CSS_SOURCE_PATH = path.join(process.cwd(), "public", CSS_FILE_NAME);
 const IMAGES_SOURCE_PATH = path.join(process.cwd(), "public", "images");
 const NOT_FOUND_SOURCE = path.join(process.cwd(), "public", "404.html");
+const SITEMAP_PATH = path.join(process.cwd(), "public", "sitemap.xml");
+const ROBOTS_PATH = path.join(process.cwd(), "public", "robots.txt");
 const CNAME_SOURCE = path.join(process.cwd(), "public", "CNAME");
 const ARTICLES_PER_PAGE = 10;
 
@@ -56,6 +59,19 @@ async function convertMarkdownToHTML(filePath, outputPath, frontMatter) {
   const raw = await fs.readFile(filePath, "utf-8");
   const { content } = matter(raw);
 
+  const relativeHtmlPath = path
+    .relative(OUTPUT_DIR, outputPath)
+    .replace(/\\/g, "/");
+
+  const canonicalPath = "/" +
+    relativeHtmlPath
+      .replace(/index\.html$/, "") // root or folders
+      .replace(/\.html$/, "/");    // articles
+
+  const canonicalUrl = frontMatter.canonical
+    ? frontMatter.canonical
+    : `${SITE_URL}${canonicalPath}`;
+
   const renderer = {
     heading(text, level) {
       if (level === 2) return `</section><section><h2>${text}</h2>`;
@@ -80,6 +96,7 @@ async function convertMarkdownToHTML(filePath, outputPath, frontMatter) {
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>${title}</title>
+<link rel="canonical" href="${canonicalUrl}">
 <meta name="description" content="${description}">
 
 <meta property="og:type" content="article">
@@ -167,7 +184,10 @@ async function generate() {
     await fs.copy(CSS_SOURCE_PATH, path.join(OUTPUT_DIR, CSS_FILE_NAME));
     await fs.copy(IMAGES_SOURCE_PATH, path.join(OUTPUT_DIR, "images"));
     await fs.copy(NOT_FOUND_SOURCE, path.join(OUTPUT_DIR, "404.html"));
+    await fs.copy(SITEMAP_PATH, path.join(OUTPUT_DIR, "sitemap.xml"));
+    await fs.copy(ROBOTS_PATH, path.join(OUTPUT_DIR, "robots.txt"));
     await fs.copy(CNAME_SOURCE, path.join(OUTPUT_DIR, "CNAME"));
+
 
     const mdFiles = await getMarkdownFiles(CONTENT_DIR);
     const allArticles = [];
