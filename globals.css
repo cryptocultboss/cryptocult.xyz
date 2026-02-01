@@ -280,6 +280,43 @@ img {
   text-transform: uppercase;
 }
 
+/* article header */
+
+.article-header {
+  margin-bottom: 3rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--accent-soft);
+}
+
+.article-header h1 {
+  line-height: 1.2;
+  font-weight: 700;
+  color: var(--text-main);
+  margin: 0 0 0.5rem 0;
+}
+
+.article-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-muted);
+}
+
+.article-meta .article-author {
+  font-weight: 500;
+  color: var(--accent);
+}
+
+.article-meta .article-separator {
+  color: var(--text-muted);
+}
+
+.article-meta time {
+  color: var(--text-muted);
+}
+
+
 /* =========================================================
    8. CONTENT CALLOUTS
    ========================================================= */
