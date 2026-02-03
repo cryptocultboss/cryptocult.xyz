@@ -36,6 +36,12 @@ li {
     padding: 0;
 }
 
+code {
+    line-height: 2.65;
+  word-break: break-word;
+  white-space: pre-wrap;
+}
+
 /* base */
 
 body {
@@ -202,6 +208,12 @@ code {
     justify-content: center;
     gap: 2rem;
     margin-bottom: 1.2rem;
+}
+
+@media (max-width: 640px) {
+    .footer-links {
+        flex-direction: column;
+    }
 }
 
 .footer-links a {
