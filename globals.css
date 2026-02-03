@@ -145,7 +145,6 @@ hr {
 @media (max-width: 640px) {
     body {
         font-size: 17px;
-        margin: 40px auto;
     }
 
     h1 {
