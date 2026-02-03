@@ -1,433 +1,210 @@
-/* =========================================================
-   1. DESIGN TOKENS / VARIABLES
-   ========================================================= */
+/* variables */
 
 :root {
-  /* Colors */
-  --color-dark-gold: #31972e;
-  --color-gold-light: #45CC41;
-  --color-gold-dark: #459743;
-  --color-dark-black: #000000;
-  --color-light-black: #1A1A1A;
-  --color-dark-gray: #2D2D2D;
-  --color-medium-gray: #444;
-  --color-light-gray: #F5F5F5;
-  --color-white: #FFFFFF;
-  --color-overlay: rgba(26, 26, 26, 0.85);
-
-  /* UI palette */
-  --bg-dark: #0b0f14;
-  --bg-panel: #11161d;
-  --text-main: #e6e8eb;
-  --text-muted: #9aa4af;
-  --accent: #45CC41;
-  --accent-soft: rgba(44, 255, 106, 0.15);
-
-  /* Typography */
-  --font-heading: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --base-font: 1rem;
-
-  /* UI tokens */
-  --border-radius: 8px;
-  --box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-  --transition: all 0.3s ease;
+    --bg-color: #1A1A1A;
+    --bg-footer: #000000;
+    --text-color: #e6e8eb;
+    --heading-color: #ffffff;
+    --muted-color: #9aa0a6;
+    --font-heading: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    --font-body: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --accent: #45CC41;
+    --accent-soft: rgba(44, 255, 106, 0.15);
+    --line-height: 1.6em;
 }
 
-/* =========================================================
-   2. RESET & GLOBAL SAFETY RULES
-   ========================================================= */
+/* min css reset */
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
 }
 
-body {
-  min-height: 100vh;
-  overflow-x: hidden;
-  font-family: var(--font-body);
-  font-size: var(--base-font);
-  line-height: 1.6;
-  color: var(--color-light-gray);
-  background-color: var(--color-light-black);
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
 }
 
-/* Text wrapping safety (crypto-safe) */
-p,
+body,
 h1,
 h2,
-h3,
-li,
-a,
-span,
-blockquote {
-  overflow-wrap: anywhere;
-  word-break: break-word;
+p,
+ul,
+li {
+    margin: 0;
+    padding: 0;
 }
 
-/* =========================================================
-   3. TYPOGRAPHY
-   ========================================================= */
+/* base */
+
+body {
+    font-family: var(--font-body);
+    font-size: 18px;
+    line-height: var(--line-height);
+    color: var(--text-color);
+    background-color: var(--bg-color);
+}
+
+main {
+    padding: 20px 10px;
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+img {
+    max-width: 720px;
+    width: 100%;
+    height: auto;
+}
+
+/* headings */
+
+h1,
+h2 {
+    color: var(--heading-color);
+}
 
 h1 {
-  text-transform: uppercase;
-  letter-spacing: -1px;
-  font-size: calc(var(--base-font) * 3.2);
-  line-height: 1.2;
-  margin-bottom: 4rem;
+    font-size: 2.1rem;
+    font-weight: 700;
+    line-height: 1.25;
+    margin-top: 2.5rem;
+    margin-bottom: 2rem;
 }
 
 h2 {
-  font-size: calc(var(--base-font) * 1.6);
-  margin-top: 3rem;
-  margin-bottom: 1rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1.3;
+    margin-top: 2.4rem;
+    margin-bottom: 2rem;
 }
 
-h3 {
-  font-size: calc(var(--base-font) * 1.25);
-  margin-top: 2rem;
-  margin-bottom: 0.75rem;
-}
-
-h1,
-h2,
-h3 {
-  font-weight: 600;
-  font-family: var(--font-heading);
-}
-
-p {
-  margin: 1rem 0;
-  line-height: 2;
-}
-
-a {
-  color: var(--color-dark-gold);
-  text-decoration: underline;
-}
-
-/* =========================================================
-   4. LISTS & BLOCK CONTENT
-   ========================================================= */
-
-ul,
-ol {
-  margin: 1rem 0 1rem 1.25rem;
-  padding-left: 1.5rem;
-}
-
-li {
-  margin: 0.4rem 0;
-}
-
-blockquote {
-  margin-top: 1.8rem;
-  color: var(--text-main);
-  background: var(--accent-soft);
-  padding: 0.75rem 1rem;
-  border-left: 3px solid var(--accent);
-  font-style: italic;
-  font-size: 1.2rem;
-}
-
-/* =========================================================
-   5. CODE BLOCKS
-   ========================================================= */
-
-pre {
-  background: #f6f6f6;
-  padding: 1rem;
-  overflow-x: auto;
-  border-radius: 6px;
-}
-
-code {
-  font-family: monospace;
-  font-size: calc(var(--base-font) * 0.95);
-  white-space: pre-wrap;
-  word-break: break-word;
-}
-
+/* nav */
 .site-nav {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  padding: 1.25rem 1.5rem;
-  background-color: var(--color-dark-black);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 1.25rem 1.5rem;
+    background-color: var(--bg-footer);
 
 }
 
 .nav-logo {
-  display: inline-flex;
-  align-items: center;
-  text-decoration: none;
-  color: inherit;
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
 }
 
 .nav-logo img {
-  height: 32px;
-  width: auto;
-  display: block;
+    height: 32px;
+    width: auto;
+    display: block;
+}
+
+/* elements */
+
+p {
+    margin: -10px -10px calc(8px + var(--line-height) * 0.4);
+    padding: 10px;
+}
+
+p,
+li {
+    color: var(--text-color);
+}
+
+/* lists */
+
+ul {
+    margin: 1rem 0 1.5rem 1.4rem;
+}
+
+li {
+    margin-bottom: 0.6rem;
+}
+
+/* accents */
+
+::selection {
+    background: rgba(120, 120, 120, 0.25);
+}
+
+hr {
+    border: none;
+    height: 1px;
+    background: var(--muted-color);
+    opacity: 0.4;
+    margin: 3rem 0;
+}
+
+/* mobile */
+
+@media (max-width: 640px) {
+    body {
+        font-size: 17px;
+        margin: 40px auto;
+    }
+
+    h1 {
+        font-size: 1.9rem;
+    }
+
+    h2 {
+        font-size: 1.4rem;
+    }
 }
 
 
-/* =========================================================
-   6. ARTICLE LAYOUT
-   ========================================================= */
-
-article {
-  max-width: 75ch;
-  margin: 4rem auto;
-  padding: 0 1rem;
-}
-
-/* Full-bleed article images */
-article img {
-  display: block;
-  width: 100vw;
-  max-width: 100vw;
-  height: auto;
-  object-fit: cover;
-
-  position: relative;
-  left: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
-  border-radius: 4px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-article img:hover {
-  transform: scale(1.02);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
-}
-
-/* Fallback for inline images */
-img {
-  max-width: 100%;
-  height: auto;
-  margin: 1rem 0;
-}
-
-/* =========================================================
-   7. HEADER / HERO SECTION
-   ========================================================= */
-
-.main-header {
-  position: relative;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-
-.main-header h1,
-.main-header h2,
-.main-header h3,
-.main-header p {
-  margin: 0;
-}
-
-.background-container {
-  position: absolute;
-  inset: 0;
-  z-index: -2;
-}
-
-.gif-background {
-  position: absolute;
-  inset: 0;
-  background-image: url("./images/crypto-cult-token.gif");
-  background-size: cover;
-  background-position: center;
-  animation: backgroundAnimation 3s infinite alternate;
-}
-
-@keyframes backgroundAnimation {
-  0% {
-    transform: scale(1);
-    filter: brightness(0.1) contrast(1);
-  }
-
-  100% {
-    transform: scale(1.05);
-    filter: brightness(0.3) contrast(1.1);
-  }
-}
-
-.overlay {
-  position: absolute;
-  inset: 0;
-  background: var(--color-overlay);
-  z-index: -1;
-}
-
-.header-content {
-  width: 90%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 3rem 2rem;
-  display: grid;
-  gap: 2.5rem;
-  z-index: 10;
-}
-
-.header-content h1 {
-  text-transform: uppercase;
-}
-
-/* article header */
-
-.article-header {
-  margin-bottom: 3rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid var(--accent-soft);
-}
-
-.article-header h1 {
-  line-height: 1.2;
-  font-weight: 700;
-  color: var(--text-main);
-  margin: 0 0 0.5rem 0;
-}
-
-.article-meta {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.5rem;
-  color: var(--text-muted);
-}
-
-.article-meta .article-author {
-  font-weight: 500;
-  color: var(--accent);
-}
-
-.article-meta .article-separator {
-  color: var(--text-muted);
-}
-
-.article-meta time {
-  color: var(--text-muted);
-}
-
-
-/* =========================================================
-   8. CONTENT CALLOUTS
-   ========================================================= */
-
-.lead,
-.statements p,
-.closing {
-  color: var(--text-muted);
-}
-
-.statements span,
-.closing span {
-  color: var(--accent);
-  font-weight: 600;
-}
-
-.highlight {
-  margin-top: 1.8rem;
-  color: var(--text-main);
-  background: var(--accent-soft);
-  padding: 0.75rem 1rem;
-  border-left: 3px solid var(--accent);
-}
-
-/* =========================================================
-   9. 404 PAGE
-   ========================================================= */
-
-.header-404 {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.section-404 {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-/* =========================================================
-   10. FOOTER
-   ========================================================= */
-
+/* footer */
 .site-footer {
-  background-color: var(--color-dark-black);
-  padding: 3rem 1.5rem;
+    background-color: var(--bg-footer);
+    padding: 3rem 1.5rem;
 }
 
 .footer-inner {
-  max-width: 780px;
-  margin: 0 auto;
-  text-align: center;
+    max-width: 780px;
+    margin: 0 auto;
+    text-align: center;
 }
 
 .footer-label {
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-muted);
-  margin-bottom: 1rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
 }
 
 .footer-links {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  margin-bottom: 1.2rem;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 1.2rem;
 }
 
 .footer-links a {
-  color: var(--text-main);
-  text-decoration: none;
-  position: relative;
+    color: var(--text-main);
+    text-decoration: none;
+    position: relative;
 }
 
 .footer-links a::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -4px;
-  width: 0%;
-  height: 1px;
-  background: var(--accent);
-  transition: width 0.25s ease;
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    width: 0%;
+    height: 1px;
+    background: var(--accent);
+    transition: width 0.25s ease;
 }
 
 .footer-links a:hover::after {
-  width: 100%;
+    width: 100%;
 }
 
 .footer-note {
-  color: var(--text-muted);
-}
-
-/* =========================================================
-   11. RESPONSIVE OVERRIDES
-   ========================================================= */
-
-@media (max-width: 500px) {
-  h1 {
-    font-size: 1.7rem;
-    line-height: 1.25;
-    margin-bottom: 1.5rem;
-  }
-
-  h2 {
-    font-size: 1.35rem;
-  }
-
-  .footer-links {
-    flex-direction: column;
-    gap: 0.8rem;
-  }
+    color: var(--text-muted);
 }
